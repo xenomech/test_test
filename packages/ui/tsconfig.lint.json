@@ -1,0 +1,8 @@
+{
+  "extends": "@workspace/habitctrl-typescript-config/react-lib.json",
+  "compilerOptions": {
+    "outDir": "dist"
+  },
+  "include": ["src", "turbo"],
+  "exclude": ["node_modules", "dist"]
+}
