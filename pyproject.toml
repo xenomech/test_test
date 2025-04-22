@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "habitctrl"
+version = "0.1.0"
+description = ""
+authors = ["xenomech <gokulsmenon227@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^5.2"
+djangorestframework = "^3.16.0"
+django-filter = "^25.1"
+python-dotenv = "^1.1.0"
+django-cors-headers = "^4.7.0"
+django-unfold = "^0.55.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
