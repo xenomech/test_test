@@ -34,27 +34,9 @@ importers:
 
   apps/web:
     dependencies:
-      "@radix-ui/react-dialog":
-        specifier: ^1.1.11
-        version: 1.1.11(@types/react-dom@19.1.1(@types/react@19.1.0))(@types/react@19.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      "@radix-ui/react-separator":
-        specifier: ^1.1.4
-        version: 1.1.4(@types/react-dom@19.1.1(@types/react@19.1.0))(@types/react@19.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      "@radix-ui/react-slot":
-        specifier: ^1.1.2
-        version: 1.2.0(@types/react@19.1.0)(react@19.1.0)
-      "@radix-ui/react-tooltip":
-        specifier: ^1.2.4
-        version: 1.2.4(@types/react-dom@19.1.1(@types/react@19.1.0))(@types/react@19.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       "@workspace/ui":
         specifier: workspace:*
         version: link:../../packages/ui
-      class-variance-authority:
-        specifier: ^0.7.1
-        version: 0.7.1
-      lucide-react:
-        specifier: ^0.475.0
-        version: 0.475.0(react@19.1.0)
       next:
         specifier: ^15.3.0
         version: 15.3.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
