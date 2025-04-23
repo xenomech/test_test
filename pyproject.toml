@@ -4,6 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["xenomech <gokulsmenon227@gmail.com>"]
 license = "MIT"
+package-mode = false
 readme = "README.md"
 
 [tool.poetry.dependencies]
