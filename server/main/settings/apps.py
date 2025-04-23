@@ -1,4 +1,5 @@
 INSTALLED_APPS = [
+    "unfold",
     # Django built-in apps
     "django.contrib.admin",
     "django.contrib.auth",
@@ -7,7 +8,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Third-party apps
-    "unfold",
     "rest_framework",
     "rest_framework_simplejwt",
     "corsheaders",
