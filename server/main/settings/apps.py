@@ -11,6 +11,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "corsheaders",
+    "drf_yasg",
     # Local apps
     "core",
     "app",
