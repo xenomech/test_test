@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+import uuid
 
 User = get_user_model()
 
@@ -12,7 +13,7 @@ class Habit(models.Model):
         ("weekly", "Weekly"),
         ("monthly", "Monthly"),
     ]
-
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="habits")
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
@@ -40,6 +41,7 @@ class Habit(models.Model):
 
 
 class HabitCompletion(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     habit = models.ForeignKey(
         Habit, on_delete=models.CASCADE, related_name="completions"
     )
@@ -51,6 +53,7 @@ class HabitCompletion(models.Model):
 
 
 class Streak(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE, related_name="streaks")
     start_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)

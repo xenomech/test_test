@@ -1,8 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import uuid
 
 
 class User(AbstractUser):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)
     pass
 
@@ -12,6 +14,7 @@ class Profile(models.Model):
         ("male", "Male"),
         ("female", "Female"),
     ]
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     age = models.PositiveIntegerField(null=True, blank=True)
     gender = models.CharField(
