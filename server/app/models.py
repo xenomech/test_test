@@ -7,7 +7,13 @@ User = get_user_model()
 # Create your models here.
 
 
+class HabitManager(models.Manager):
+    def for_user(self, user):
+        return self.get_queryset().filter(user=user)
+
+
 class Habit(models.Model):
+    objects = HabitManager()
     RECURRENCE_TYPE_CHOICES = [
         ("daily", "Daily"),
         ("weekly", "Weekly"),
@@ -23,11 +29,13 @@ class Habit(models.Model):
     recurrence_count = models.PositiveIntegerField(
         default=1, help_text="Number of times per day/week/month"
     )
-    weekdays = models.CharField(
-        max_length=13, blank=True, help_text="Comma-separated list of weekdays (0-6)"
+    weekdays = models.JSONField(
+        default=list(range(7)),
+        help_text="Comma-separated list of weekdays (0-6)",
     )
-    month_days = models.CharField(
-        max_length=100, blank=True, help_text="Comma-separated list of days in month"
+    month_days = models.JSONField(
+        default=list(range(1, 32)),
+        help_text="Comma-separated list of days in month",
     )
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -40,19 +48,31 @@ class Habit(models.Model):
         ordering = ["-created_at"]
 
 
+class HabitCompletionManager(models.Manager):
+    def for_user(self, user):
+        return self.get_queryset().filter(habit__user=user)
+
+
 class HabitCompletion(models.Model):
+    objects = HabitCompletionManager()
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     habit = models.ForeignKey(
         Habit, on_delete=models.CASCADE, related_name="completions"
     )
     completed_at = models.DateTimeField(auto_now_add=True)
-    notes = models.TextField(blank=True)
+    notes = models.TextField(blank=True, null=True)
 
     class Meta:
         ordering = ["-completed_at"]
 
 
+class StreakManager(models.Manager):
+    def for_user(self, user):
+        return self.get_queryset().filter(habit__user=user)
+
+
 class Streak(models.Model):
+    objects = StreakManager()
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     habit = models.ForeignKey(Habit, on_delete=models.CASCADE, related_name="streaks")
     start_date = models.DateField()
@@ -66,3 +86,19 @@ class Streak(models.Model):
     @property
     def length(self):
         return self.current_count
+
+
+class HabitReminderManager(models.Manager):
+    def for_user(self, user):
+        return self.get_queryset().filter(habit__user=user)
+
+
+class HabitReminder(models.Model):
+    objects = HabitReminderManager()
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    habit = models.ForeignKey(Habit, on_delete=models.CASCADE, related_name="reminders")
+    time = models.TimeField()
+    is_enabled = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["time"]

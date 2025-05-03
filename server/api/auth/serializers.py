@@ -1,30 +1,28 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from rest_framework_simplejwt.tokens import RefreshToken
 
 User = get_user_model()
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(required=True)
+    username = serializers.EmailField(required=True)
     password = serializers.CharField(write_only=True)
-    password2 = serializers.CharField(write_only=True)
+    confirm_password = serializers.CharField(write_only=True)
 
     class Meta:
         model = User
-        fields = ["email", "password", "password2"]
+        fields = ["username", "password", "confirm_password"]
 
     def validate(self, attrs):
-        if attrs["password"] != attrs["password2"]:
+        if attrs["password"] != attrs["confirm_password"]:
             raise serializers.ValidationError(
                 {"password": "Password fields didn't match."}
             )
 
         return attrs
 
-    def create(self, validated_data):
-        user = User.objects.create(
-            username=validated_data["email"], email=validated_data["email"]
-        )
-        user.set_password(validated_data["password"])
-        user.save()
-        return user
+    def validate_username(self, value):
+        if User.objects.filter(username=value.lower()).exists():
+            raise serializers.ValidationError("Username already exists")
+        return value

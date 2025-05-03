@@ -9,9 +9,13 @@ class HabitSerializer(serializers.ModelSerializer):
 
 
 class HabitCompletionSerializer(serializers.ModelSerializer):
+    habit = HabitSerializer(read_only=True)
+    completed_at = serializers.DateTimeField(read_only=True)
+    notes = serializers.CharField(required=False)
+
     class Meta:
         model = HabitCompletion
-        fields = "__all__"
+        fields = ["notes", "completed_at", "habit"]
 
 
 class StreakSerializer(serializers.ModelSerializer):
