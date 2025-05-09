@@ -1,5 +1,5 @@
 {
-  "name": "@workspace/utils",
+  "name": "@habitctrl/utils",
   "version": "0.0.0",
   "type": "module",
   "private": true,
@@ -12,8 +12,8 @@
   },
   "devDependencies": {
     "@types/ramda": "^0.30.2",
-    "@workspace/eslint-config": "workspace:*",
-    "@workspace/typescript-config": "workspace:*",
+    "@habitctrl/eslint-config": "workspace:*",
+    "@habitctrl/typescript-config": "workspace:*",
     "typescript": "^5.7.3"
   },
   "exports": {

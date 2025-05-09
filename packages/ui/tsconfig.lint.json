@@ -1,5 +1,5 @@
 {
-  "extends": "@workspace/habitctrl-typescript-config/react-lib.json",
+  "extends": "@habitctrl/typescript-config/react-library.json",
   "compilerOptions": {
     "outDir": "dist"
   },

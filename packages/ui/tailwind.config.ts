@@ -7,12 +7,15 @@ const config = {
   content: [
     "src/**/*.{ts,tsx}",
     "../../packages/ui/src/components/**/*.{ts,tsx}",
+    "../../apps/web/src/**/*.{ts,tsx}",
+    "../../apps/web/index.html",
   ],
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", ...fontFamily.sans],
-        // mono: ["var(--font-geist-mono)", ...fontFamily.mono],
+        sans: ["var(--font-inter)", ...fontFamily.sans],
+        inter: ["var(--font-inter)", ...fontFamily.sans],
+        manrope: ["var(--font-manrope)", ...fontFamily.sans],
       },
       colors: {
         border: "hsl(var(--border))",
