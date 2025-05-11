@@ -38,7 +38,6 @@ yarn-error.log*
 *.pem
 
 # Poetry
-poetry.lock
 __pypackages__/
 .python-version
 
