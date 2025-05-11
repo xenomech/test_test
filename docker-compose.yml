@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:14-alpine
+    image: postgres:17-alpine
     expose:
       - "5432"
     env_file:
@@ -9,11 +9,6 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - app-network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
 
   backend:
     build:
@@ -28,16 +23,9 @@ services:
       - media_volume:/app/server/media
       - static_volume:/app/server/static
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     networks:
       - app-network
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8000/health/ || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 30s
     deploy:
       resources:
         limits:
@@ -60,8 +48,7 @@ services:
       - static_volume:/app/server/static
       - media_volume:/app/server/media
     depends_on:
-      backend:
-        condition: service_healthy
+      - backend
     networks:
       - app-network
     deploy:
