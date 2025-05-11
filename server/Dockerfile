@@ -35,4 +35,4 @@ RUN poetry run python server/manage.py collectstatic --noinput
 EXPOSE 8000
 
 # Run the application with Gunicorn
-CMD ["poetry", "run", "gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "--chdir", "server", "config.wsgi:application"]
+CMD ["poetry", "run", "gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "--chdir", "server", "main.wsgi:application"]
