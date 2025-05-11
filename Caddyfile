@@ -1,0 +1,37 @@
+{
+    # Global options
+    auto_https disable_redirects
+    admin off
+    log {
+        output stdout
+        format console
+    }
+}
+
+# Main site configuration
+:80 {
+    # Enable compression
+    encode gzip zstd
+
+    # Handle static files
+    handle /static/* {
+        root * /static
+        file_server
+    }
+
+    # Handle media files
+    handle /media/* {
+        root * /media
+        file_server
+    }
+
+    # Proxy all other requests to the backend
+    handle {
+        reverse_proxy backend:8000 {
+            header_up Host {host}
+            header_up X-Real-IP {remote}
+            header_up X-Forwarded-For {remote}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+}
