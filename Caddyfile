@@ -29,7 +29,10 @@ zaped.xyz {
     }
 
     # Handle static files
-    handle /static/* {
+    @static {
+        path /static/*
+    }
+    handle @static {
         root * /app/server/staticfiles
         file_server {
             precompressed br gzip
@@ -41,15 +44,13 @@ zaped.xyz {
             +X-Debug-Path {path}
             +X-Debug-Root {root}
         }
-        log {
-            output stdout
-            format console
-            level DEBUG
-        }
     }
 
     # Handle media files
-    handle /media/* {
+    @media {
+        path /media/*
+    }
+    handle @media {
         root * /app/server/media
         file_server {
             precompressed br gzip
