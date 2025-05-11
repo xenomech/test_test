@@ -30,13 +30,14 @@ zaped.xyz {
 
     # Handle static files
     handle /static/* {
-        root * /static
+        root * /app/server/staticfiles
         file_server
+        try_files {path} /index.html
     }
 
     # Handle media files
     handle /media/* {
-        root * /media
+        root * /app/server/media
         file_server
     }
 

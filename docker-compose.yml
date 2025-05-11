@@ -21,7 +21,7 @@ services:
     volumes:
       - ./server:/app/server
       - media_volume:/app/server/media
-      - static_volume:/app/server/static
+      - staticfiles_volume:/app/server/staticfiles
     depends_on:
       - db
     networks:
@@ -45,7 +45,7 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
-      - static_volume:/app/server/static
+      - staticfiles_volume:/app/server/staticfiles
       - media_volume:/app/server/media
     depends_on:
       - backend
@@ -60,7 +60,7 @@ services:
 volumes:
   postgres_data:
   media_volume:
-  static_volume:
+  staticfiles_volume:
   caddy_data:
   caddy_config:
 
