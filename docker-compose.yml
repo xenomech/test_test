@@ -1,17 +1,4 @@
 services:
-  frontend:
-    build:
-      context: .
-      dockerfile: ./apps/web/Dockerfile
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
-    env_file:
-      - ./apps/web/.env
-    networks:
-      - app-network
-
   backend:
     build:
       context: .

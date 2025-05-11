@@ -28,8 +28,11 @@ ENV PYTHONPATH=/app
 RUN mkdir -p /app/server/static /app/server/media && \
     chown -R nobody:nogroup /app/server/static /app/server/media
 
+# Collect static files
+RUN poetry run python server/manage.py collectstatic --noinput
+
 # Expose port
 EXPOSE 8000
 
-# Run the application
-CMD ["poetry", "run", "python", "server/manage.py", "runserver", "0.0.0.0:8000"]
+# Run the application with Gunicorn
+CMD ["poetry", "run", "gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "--chdir", "server", "config.wsgi:application"]
