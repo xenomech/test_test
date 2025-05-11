@@ -2,6 +2,8 @@ from django.urls import path, include
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -16,7 +18,12 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 
+@api_view(['GET'])
+def health_check(request):
+    return Response({"status": "healthy"})
+
 urlpatterns = [
+    path("health/", health_check, name="health-check"),
     path("docs<format>/", schema_view.without_ui(cache_timeout=0), name="schema-json"),
     path(
         "docs/",

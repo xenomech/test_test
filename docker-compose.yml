@@ -1,4 +1,20 @@
 services:
+  db:
+    image: postgres:14-alpine
+    expose:
+      - "5432"
+    env_file:
+      - ./server/.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
   backend:
     build:
       context: .
@@ -12,20 +28,24 @@ services:
       - media_volume:/app/server/media
       - static_volume:/app/server/static
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - app-network
-
-  db:
-    image: postgres:15-alpine
-    expose:
-      - "5432"
-    env_file:
-      - ./server/.env
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
 
   caddy:
     image: caddy:2-alpine
@@ -37,12 +57,18 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
-      - static_volume:/static
-      - media_volume:/media
+      - static_volume:/app/server/static
+      - media_volume:/app/server/media
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     networks:
       - app-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
 
 volumes:
   postgres_data:
