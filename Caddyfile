@@ -38,6 +38,13 @@ zaped.xyz {
         header {
             Cache-Control "public, max-age=31536000"
             Vary Accept-Encoding
+            +X-Debug-Path {path}
+            +X-Debug-Root {root}
+        }
+        log {
+            output stdout
+            format console
+            level DEBUG
         }
     }
 
